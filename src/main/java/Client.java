@@ -1,5 +1,4 @@
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -9,11 +8,11 @@ public class Client {
 
     public static void main(String[] args) {
 
-        try (Socket socket = new Socket(host, port)) {
+        try (Socket socket = new Socket(host, port);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+             Scanner scanner = new Scanner(System.in)) {
             System.out.println("Client port : " + socket.getLocalPort() + " InetAddress : " + socket.getInetAddress());
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
-            Scanner scanner = new Scanner(System.in);
             while (true) {
                 System.out.println(in.readLine());
                 String scan = scanner.nextLine();
